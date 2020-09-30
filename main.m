@@ -37,6 +37,7 @@ for iter = 1:10000
     while(1000*norm(x_old - x)>1e-4)
         x_old = x;
         cvx_begin quiet
+        cvx_precision high
         variable z(M)
         variable x(d)
         variable g(M)
@@ -50,7 +51,7 @@ for iter = 1:10000
             range_n(i,1) <= n(i) <= range_n(i,2)
             range_g(i,1) <= g(i) <= range_g(i,2)
         end
-        R^2 + x_0*x_0' - 2*x'*x_0' <= param.rho^2
+        2*R^2 - 2*x'*x_0' <= param.rho^2
         cvx_end
         g_bar = g;
         x = x';
