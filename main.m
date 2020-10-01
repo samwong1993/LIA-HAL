@@ -1,7 +1,7 @@
 clear all
 cvx_solver gurobi_2
-dis = 8;
-tol = 15;
+dis = 10;
+tol = 25;
 succ = zeros(1,tol);
 fail = zeros(1,tol);
 bett = zeros(1,tol);
