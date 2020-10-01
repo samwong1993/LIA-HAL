@@ -1,6 +1,6 @@
 clear all
 cvx_solver gurobi_2
-dis = 3;
+dis = 5;
 tol = 30;
 succ = zeros(1,tol);
 fail = zeros(1,tol);

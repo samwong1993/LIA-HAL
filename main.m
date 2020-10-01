@@ -29,7 +29,7 @@ for iter = 1:10000
         g_bar(i) = norm(param.x_0 - XYZ(i,:));
     end
     k = 1;
-    if 1000*norm(param.x_0 - param.x_e) > tol
+    if 1000*norm(param.x_0 - param.x_e) > tol || 1000*norm(param.x_0 - param.x_e) < 20
         continue
     end
     x_old = x_0;
