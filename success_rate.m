@@ -21,4 +21,5 @@ for i = 1:length(X)
     text(X(i),Y_1(i,2),num2str(Y_1(i,2)),'HorizontalAlignment','center','VerticalAlignment','bottom','FontSize',8,'FontName','Times New Roman');
     text(X(i)+0.25,Y_1(i,3),num2str(Y_1(i,3)),'HorizontalAlignment','center','VerticalAlignment','bottom','FontSize',8,'FontName','Times New Roman');
 end
-saveas(gcf,sprintf('results.pdf'),'bmp'); 
+set(gcf,'PaperType','a2');
+saveas(gcf,sprintf('results.pdf'),'pdf'); 

@@ -1,7 +1,7 @@
 clear all
 cvx_solver gurobi_2
-dis = 5;
-tol = 30;
+dis = 10;
+tol = 40;
 succ = zeros(1,tol);
 fail = zeros(1,tol);
 bett = zeros(1,tol);
@@ -31,6 +31,8 @@ end
 k = 1;
 x_old = x_0;
 obj_best = 9999;
+z(i) = abs(g_bar(i) - a(i) - lambda*n(i))
+    fprintf("Initial Error:%2.4f|Error:%2.4f|Obj:%2.4f|Dif_g:%2.4f\n",1000*norm(emitter - x_0),1000*norm(param.x_e - x),1e6*sum(z),norm(g_bar - g))
 while(1000*norm(x_old - x)>1e-12)
     x_old = x;
     cvx_begin quiet
