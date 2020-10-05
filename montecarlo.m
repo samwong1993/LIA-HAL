@@ -10,69 +10,40 @@ for iter = 1:10000
     % M = 4;
     % d = 3;
     % param = realdata_simulator(R,M,d,dis)
-    emitter  = [3844059.71543,709661.56843,5023129.70605]/1000;
-    R = norm(emitter);
+    R = 6.364923148106367e+03;
     M = 5;
     d = 3;
     param = realdata_simulator2(R,M,d,dis);
-
-    emitter = param.x_e;
-    x_0 = param.x_0;
-    a = param.a;
-    XYZ = param.s;
-    x = zeros(1,d);
-    range_n = range_N(param);
-    range_g = range_G(param);
-    lambda = param.lambda;
-    [M,d] = size(XYZ);
-    for i = 1:M
-        g_bar(i) = norm(param.x_0 - XYZ(i,:));
-    end
-    k = 1;
     if 1000*norm(param.x_0 - param.x_e) > tol || 1000*norm(param.x_0 - param.x_e) < 18
         continue
     end
-    x_old = x_0;
+    [M,d] = size(param.s);
+    g_bar = zeros(M,1);
+    for i = 1:M
+        g_bar(i) = norm(param.x_0 - param.s(i,:));
+    end
+    k = 1;
+    x_old = param.x_0;
     obj_best = 9999;
-    while(1000*norm(x_old - x)>1e-4)
-        x_old = x;
-        cvx_begin quiet
-        cvx_precision high
-        variable z(M)
-        variable x(d)
-        variable g(M)
-        variable n(M) integer
-        minimize sum(z)
-        for i = 1:M
-            - z(i) <= g(i) - a(i) - lambda*n(i) <= z(i)
+    while(1000*norm(x_old - param.x)>1e-10)
+        x_old = param.x;
+        param = solve_cvx(param,R,g_bar);
+        if param.obj<obj_best
+            obj_best = param.obj;
+            x_best = param.x;
+            n_best = param.n;
         end
-        for i = 1:M
-            XYZ(i,:)*XYZ(i,:)' + R^2  - 2*XYZ(i,:)*x == g(i)*g_bar(i)
-            range_n(i,1) <= n(i) <= range_n(i,2)
-            range_g(i,1) <= g(i) <= range_g(i,2)
-        end
-        0 <= 2*R^2 - 2*x'*x_0' <= (1000*param.rho)^2
-        cvx_end
-        g_bar = g;
-        x = x';
-        n = n';
-        param.x = x;
-        param.n = n;
-        param = solve_x(param);
-        obj = objective(param);
-        if obj<obj_best
-            obj_best = obj;
-            x_best = x;
-            n_best = n;
-        end
-        fprintf("Iter:%d|Initial Error:%2.4f|Error:%2.4f|Obj:%2.4f\n",iter,1000*norm(emitter - x_0),1000*norm(param.x_e - x),1e6*obj)
+        fprintf("Initial Error:%2.4f|Error:%2.4f|Obj:%2.4f|Dif_g:%2.4f\n",1000*norm(param.x_e - param.x_0),1000*norm(param.x_e - param.x),1e6*sum(param.z),norm(g_bar - param.g))
+        fprintf("x:(%2.10f,%2.10f,%2.10f)\n",param.x(1),param.x(2),param.x(3))
+        fprintf("n:(%8.0f,%8.0f,%8.0f,%8.0f,%8.0f)\n",param.n(1),param.n(2),param.n(3),param.n(4),param.n(5))
+        g_bar = param.g;
         k = k + 1;
         if k >= 10
             break
         end
     end
-    fprintf("Iter:%d|Initial Error:%2.4f|Error:%2.4f|Obj:%2.4f\n",iter,1000*norm(emitter - x_0),1000*norm(param.x_e - x_best),1e6*obj_best)
-    index = ceil(norm(emitter - x_0)*1000);
+    fprintf("Iter:%d|Initial Error:%2.4f|Error:%2.4f|Obj:%2.4f\n",iter,1000*norm(param.x_e - param.x_0),1000*norm(param.x_e - x_best),1e6*obj_best)
+    index = ceil(norm(param.x_e - param.x_0)*1000);
     if 1000*norm(param.x_e - x_best) < 1e-2
         succ(index) = succ(index) + 1;
     else if 1000*norm(param.x_e - x_best) < 1000*norm(param.x_0 - param.x_e)
