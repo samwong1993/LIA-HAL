@@ -28,5 +28,5 @@ param.n_e = n;
 param.x = emitter;
 param.n = n;
 param.rho = rho;
-obj = objective(param);
+param.obj = objective(param);
 end

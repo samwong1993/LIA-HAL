@@ -27,7 +27,7 @@ end
 k = 1;
 x_old = x_0;
 obj_best = 9999;
-while(1000*norm(x_old - x)>1e-12)
+while(1000*norm(x_old - x)>1e-10)
     x_old = x;
     cvx_begin quiet
     cvx_precision high
@@ -44,7 +44,7 @@ while(1000*norm(x_old - x)>1e-12)
         range_n(i,1) <= n(i) <= range_n(i,2)
         range_g(i,1) <= g(i) <= range_g(i,2)
     end
-    2*R^2 - 2*x'*x_0' <= param.rho^2
+    0 <= 2*R^2 - 2*x'*x_0' <= (1000*param.rho)^2
     cvx_end
     x = x';
     n = n';
@@ -58,14 +58,16 @@ while(1000*norm(x_old - x)>1e-12)
         n_best = n;
     end
     fprintf("Initial Error:%2.4f|Error:%2.4f|Obj:%2.4f|Dif_g:%2.4f\n",1000*norm(emitter - x_0),1000*norm(param.x_e - x),1e6*sum(z),norm(g_bar - g))
+    fprintf("x:(%2.10f,%2.10f,%2.10f)\n",x(1),x(2),x(3))
+    fprintf("n:(%8.0f,%8.0f,%8.0f,%8.0f,%8.0f)\n",n(1),n(2),n(3),n(4),n(5))
     g_bar = g;
     k = k + 1;
-    if k >= 100
+    if k >= 10
         break
     end
 end
 fprintf("Initial Error:%2.4f|Error:%2.4f|Obj:%2.4f\n",1000*norm(emitter - x_0),1000*norm(param.x_e - x_best),1e6*obj_best)
-earth
+% earth
 
 
 

@@ -29,7 +29,7 @@ for iter = 1:10000
         g_bar(i) = norm(param.x_0 - XYZ(i,:));
     end
     k = 1;
-    if 1000*norm(param.x_0 - param.x_e) > tol || 1000*norm(param.x_0 - param.x_e) < 14
+    if 1000*norm(param.x_0 - param.x_e) > 25 || 1000*norm(param.x_0 - param.x_e) < 18
         continue
     end
     x_old = x_0;
@@ -51,7 +51,7 @@ for iter = 1:10000
             range_n(i,1) <= n(i) <= range_n(i,2)
             range_g(i,1) <= g(i) <= range_g(i,2)
         end
-        2*R^2 - 2*x'*x_0' <= param.rho^2
+        0 <= 2*R^2 - 2*x'*x_0' <= (1000*param.rho)^2
         cvx_end
         g_bar = g;
         x = x';
