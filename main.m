@@ -1,6 +1,6 @@
 clear all
 cvx_solver gurobi_2
-dis = 5;
+dis = 1;
 % R = 6371.2;
 % M = 4;
 % d = 3;
