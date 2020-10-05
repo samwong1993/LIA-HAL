@@ -11,7 +11,7 @@ param.n = param.n_e;
 param.x = param.x_e;
 param.rho = 1.5*norm(param.x_0 - param.x_e);
 [M,d] = size(param.s);
-param.a = param.a + 1e-7*randn(1,M);
+param.a = param.a + 1e-6*randn(1,M);
 g_bar = zeros(M,1);
 for i = 1:M
     g_bar(i) = norm(param.x_0 - param.s(i,:));
@@ -19,7 +19,7 @@ end
 k = 1;
 x_old = param.x_0;
 obj_best = 9999;
-while(1000*norm(x_old - param.x)>1e-10)
+while(1000*norm(x_old - param.x)>1e-4)
     x_old = param.x;
     param = solve_cvx(param,R,g_bar);
     if param.obj<obj_best
