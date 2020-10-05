@@ -33,7 +33,7 @@ for iter = 1:10000
             x_best = param.x;
             n_best = param.n;
         end
-        fprintf("Initial Error:%2.4f|Error:%2.4f|Obj:%2.4f|Dif_g:%2.4f\n",1000*norm(param.x_e - param.x_0),1000*norm(param.x_e - param.x),1e6*sum(param.z),norm(g_bar - param.g))
+        fprintf("Iter:%d|Initial Error:%2.4f|Error:%2.4f|Obj:%2.4f|Dif_g:%2.4f\n",iter,1000*norm(param.x_e - param.x_0),1000*norm(param.x_e - param.x),1e6*sum(param.z),norm(g_bar - param.g))
         g_bar = param.g;
         k = k + 1;
         if k >= 10
