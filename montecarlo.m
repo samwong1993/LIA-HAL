@@ -14,9 +14,11 @@ for iter = 1:10000
     M = 5;
     d = 3;
     param = realdata_simulator2(R,M,d,dis);
-    if 1000*norm(param.x_0 - param.x_e) > tol || 1000*norm(param.x_0 - param.x_e) < 18
+    if 1000*norm(param.x_0 - param.x_e) > tol || 1000*norm(param.x_0 - param.x_e) < 14
         continue
     end
+    param.x = zeros(1,d);
+    param.n = zeros(1,M);
     [M,d] = size(param.s);
     g_bar = zeros(M,1);
     for i = 1:M

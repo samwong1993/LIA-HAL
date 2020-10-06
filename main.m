@@ -1,6 +1,6 @@
 clear all
 cvx_solver gurobi_2
-dis = 1;
+dis = 5;
 % R = 6371.2;
 % M = 4;
 % d = 3;
@@ -9,7 +9,8 @@ R = 6.364923148106367e+03;
 M = 5;
 d = 3;
 param = realdata_simulator2(R,M,d,dis);
-
+param.x = zeros(1,d);
+param.n = zeros(1,M);
 [M,d] = size(param.s);
 g_bar = zeros(M,1);
 for i = 1:M
@@ -18,7 +19,7 @@ end
 k = 1;
 x_old = param.x_0;
 obj_best = 9999;
-while(1000*norm(x_old - param.x)>1e-10)
+while(1000*norm(x_old - param.x)>1e-5)
     x_old = param.x;
     param = solve_cvx(param,R,g_bar);
     if param.obj<obj_best
