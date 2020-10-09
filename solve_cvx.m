@@ -3,7 +3,7 @@ function param = solve_cvx(param,R,g_bar)
     range_g = range_G(param);
     [M,d] = size(param.s);
     cvx_begin quiet
-    cvx_precision high
+    cvx_precision best
     variable z(M)
     variable x(d)
     variable g(M)

@@ -14,14 +14,15 @@ a_e = param.a;
 param.rho = 1.5*norm(param.x_0 - param.x_e);
 [M,d] = size(param.s);
 param.a = param.a + 1e-6*randn(1,M);
+obj_old = objective(param); 
 g_bar = zeros(M,1);
 for i = 1:M
-    g_bar(i) = norm(param.x_0 - param.s(i,:));
+    g_bar(i) = norm(param.x_e - param.s(i,:));
 end
 k = 1;
 x_old = param.x_0;
 obj_best = 9999;
-while(1000*norm(x_old - param.x)>1e-4)
+while(1000*norm(x_old - param.x)>1e-12)
     x_old = param.x;
     param = solve_cvx(param,R,g_bar);
     if param.obj<obj_best
@@ -39,6 +40,5 @@ while(1000*norm(x_old - param.x)>1e-4)
     end
 end
 fprintf("Initial Error:%2.4f|Error:%2.4f|Obj:%2.4f\n",1000*norm(param.x_e - param.x_0),1000*norm(param.x_e - x_best),1e6*obj_best)
-1e5*(param.a - a_e)
-
+fprintf("obj_old:%2.12f|obj:%2.12f\n",obj_old,obj_best)
 % earth
