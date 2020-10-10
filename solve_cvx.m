@@ -9,7 +9,7 @@ function param = solve_cvx(param,R,g_bar)
     variable x(d)
     variable g(M)
     variable n(M) integer
-    minimize sum(z) + 0.001*sum(z2)
+    minimize sum(z) %+ 0.001*sum(z2)
     for i = 1:M
         - z(i) <= g(i) - param.a(i) - param.lambda*n(i) <= z(i)
 %         - z2(i) <= g(i) - g_bar(i) <= z2(i)

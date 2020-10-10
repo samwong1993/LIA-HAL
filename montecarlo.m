@@ -29,7 +29,6 @@ for iter = 1:10000
     obj_best = 9999;
     while(norm(x_old - param.x)>1e-10)
         x_old = param.x;
-        param.a = param.a + 1e-3*randn(1,M);
         param = solve_cvx(param,R,g_bar);
         if param.obj<obj_best
             obj_best = param.obj;
