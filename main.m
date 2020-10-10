@@ -5,10 +5,10 @@ dis = 5;
 % M = 4;
 % d = 3;
 % param = realdata_simulator(R,M,d,dis)
-R = 6.364923148106367e+03;
+R = 6.364923148106367e+06;
 M = 5;
 d = 3;
-param = realdata_simulator2(R,M,d,dis);
+param = realdata_simulator2(R,M,d,dis,1);
 param.x = zeros(1,d);
 param.n = zeros(1,M);
 [M,d] = size(param.s);
@@ -19,7 +19,7 @@ end
 k = 1;
 x_old = param.x_0;
 obj_best = 9999;
-while(1000*norm(x_old - param.x)>1e-5)
+while(norm(x_old - param.x)>1e-5)
     x_old = param.x;
     param = solve_cvx(param,R,g_bar);
     if param.obj<obj_best
@@ -27,7 +27,7 @@ while(1000*norm(x_old - param.x)>1e-5)
         x_best = param.x;
         n_best = param.n;
     end
-    fprintf("Initial Error:%2.4f|Error:%2.4f|Obj:%2.4f|Dif_g:%2.4f\n",1000*norm(param.x_e - param.x_0),1000*norm(param.x_e - param.x),1e6*sum(param.z),norm(g_bar - param.g))
+    fprintf("Initial Error:%2.4f|Error:%2.4f|Obj:%2.4f|Dif_g:%2.4f\n",norm(param.x_e - param.x_0),norm(param.x_e - param.x),sum(param.z),norm(g_bar - param.g))
     fprintf("x:(%2.10f,%2.10f,%2.10f)\n",param.x(1),param.x(2),param.x(3))
     fprintf("n:(%8.0f,%8.0f,%8.0f,%8.0f,%8.0f)\n",param.n(1),param.n(2),param.n(3),param.n(4),param.n(5))
     g_bar = param.g;
@@ -36,7 +36,7 @@ while(1000*norm(x_old - param.x)>1e-5)
         break
     end
 end
-fprintf("Initial Error:%2.4f|Error:%2.4f|Obj:%2.4f\n",1000*norm(param.x_e - param.x_0),1000*norm(param.x_e - x_best),1e6*obj_best)
+fprintf("Initial Error:%2.4f|Error:%2.4f|Obj:%2.4f\n",norm(param.x_e - param.x_0),norm(param.x_e - x_best),obj_best)
 % earth
 save noisedata
 

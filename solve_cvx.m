@@ -17,7 +17,7 @@ function param = solve_cvx(param,R,g_bar)
         range_n(i,1) <= n(i) <= range_n(i,2)
         range_g(i,1) <= g(i) <= range_g(i,2)
     end
-    0 <= 2*R^2 - 2*x'*param.x_0' <= (1000*param.rho)^2
+    0 <= 2*R^2 - 2*x'*param.x_0' <= (param.rho)^2
     cvx_end
     x = x';
     n = n';
