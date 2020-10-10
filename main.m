@@ -38,7 +38,7 @@ while(norm(x_old - param.x)>1e-5)
 end
 fprintf("Initial Error:%2.4f|Error:%2.4f|Obj:%2.4f\n",norm(param.x_e - param.x_0),norm(param.x_e - x_best),obj_best)
 % earth
-save noisedata
+% save noisedata
 
 
 
