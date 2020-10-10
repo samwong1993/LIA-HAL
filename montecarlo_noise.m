@@ -6,7 +6,7 @@ for iter = 1:100
     a_e = param.a;
     param.rho = 1.5*norm(param.x_0 - param.x_e);
     [M,d] = size(param.s);
-    param.a = param.a + 1e-3*randn(1,M);
+    param.a = param.a + 5e-3*randn(1,M);
     obj_old = objective(param); 
     g_bar = zeros(M,1);
     for i = 1:M
@@ -15,6 +15,8 @@ for iter = 1:100
     k = 1;
     x_old = param.x_0;
     obj_best = 9999;
+	param.x = zeros(1,d);
+    param.n = zeros(1,M);
     while(norm(x_old - param.x)>1e-12)
         x_old = param.x;
         param = solve_cvx(param,R,g_bar);
@@ -39,4 +41,5 @@ for iter = 1:100
     Error(iter,1) = norm(param.x_e - param.x_0);
     Error(iter,2) = norm(param.x_e - x_best);
 end
+% save('1cm.mat','obj','Error')
 % earth

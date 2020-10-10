@@ -5,12 +5,14 @@ function param = solve_cvx(param,R,g_bar)
     cvx_begin quiet
     cvx_precision best
     variable z(M)
+%     variable z2(M)
     variable x(d)
     variable g(M)
     variable n(M) integer
-    minimize sum(z)
+    minimize sum(z) + 0.001*sum(z2)
     for i = 1:M
         - z(i) <= g(i) - param.a(i) - param.lambda*n(i) <= z(i)
+%         - z2(i) <= g(i) - g_bar(i) <= z2(i)
     end
     for i = 1:M
         param.s(i,:)*param.s(i,:)' + R^2  - 2*param.s(i,:)*x == g(i)*g_bar(i)

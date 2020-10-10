@@ -1,19 +1,11 @@
 clear all
 cvx_solver gurobi_2
 R = 6.364923148106367e+06;
-% param.x_e = [3844.05971543000,709.661568430000,5023.12970605000];
-% param.s = [17813.6634032310,-5785.97298525412,9544.21342887238;20029.9156249593,6509.13632033717,3335.63923528550;8649.78014678761,11906.9374345761,14719.3423216223;3164.40765522023,1028.18187487990,21008.0580025022;7316.78624474036,-10071.8108061978,17132.3930760201];
-% param.lambda = 0.19/1000;
-% param.n_e = [84503322,90926816,81958450,84223899,87269162];
-% param.x_0 = [3844.05913297447,709.661298843919,5023.13018987354];
-% param.a = [2.77105264103739e-05,9.20307102205697e-05,0.000162797465236508,7.42248357710196e-05,0.000178195175976725];
-% param.n = param.n_e;
-% param.x = param.x_e;
 load noisedata
 a_e = param.a;
 param.rho = 1.5*norm(param.x_0 - param.x_e);
 [M,d] = size(param.s);
-param.a = param.a + 1e-3*randn(1,M);
+param.a = param.a + 1e-2*randn(1,M);
 obj_old = objective(param); 
 g_bar = zeros(M,1);
 for i = 1:M
@@ -22,6 +14,8 @@ end
 k = 1;
 x_old = param.x_0;
 obj_best = 9999;
+param.x = zeros(1,d);
+param.n = zeros(1,M);
 while(norm(x_old - param.x)>1e-12)
     x_old = param.x;
     param = solve_cvx(param,R,g_bar);

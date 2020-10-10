@@ -1,4 +1,4 @@
-load results
+load results_noiseless_300
 sum = succ_sum + fail_sum + bett_sum;
 succ_rate = succ_sum./sum;
 fail_rate = fail_sum./sum;
