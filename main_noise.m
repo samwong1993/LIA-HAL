@@ -13,7 +13,7 @@ load noisedata
 a_e = param.a;
 param.rho = 1.5*norm(param.x_0 - param.x_e);
 [M,d] = size(param.s);
-param.a = param.a + 1e-2*randn(1,M);
+param.a = param.a + 1e-3*randn(1,M);
 obj_old = objective(param); 
 g_bar = zeros(M,1);
 for i = 1:M
