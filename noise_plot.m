@@ -31,34 +31,32 @@ h=bar(X,Y);
 set(h(1),'FaceColor',[0,1,0])
 set(h(2),'FaceColor',[0,1,1])
 % set(h(3),'FaceColor',[1,0,0])
-ylabel('Objective Function');
+ylabel('Log_{10}{(Objective Function)}');
 xlabel('Noise Level (cm)');
 legend('Initial Function Value','Esitimated Function Value', 'FontSize',8,'FontName','Times New Roman', 'Location', 'northwest');
 set(gca,'xtick',1:3);
+set(gca,'yscale','log')
 set(gca,'XTickLabel',{'1cm','0.1cm','0.01cm'},'FontSize',12,'FontName','Times New Roman'); 
 Y_1=Y;
 for i = 1:length(X)
     text(X(i)-0.25,Y_1(i,1),num2str(Y_1(i,1)),'HorizontalAlignment','center','VerticalAlignment','bottom','FontSize',8,'FontName','Times New Roman');
     text(X(i)+0.25,Y_1(i,2),num2str(Y_1(i,2)),'HorizontalAlignment','center','VerticalAlignment','bottom','FontSize',8,'FontName','Times New Roman');
 end
-set(gcf,'PaperType','a2');
-saveas(gcf,sprintf('noise_obj.pdf'),'pdf'); 
+
 figure(2)
-Y= [err_ini',err_new'];
-X=1:length(err_new);
-h=bar(X,Y);
-set(h(1),'FaceColor',[0,1,0])
-set(h(2),'FaceColor',[0,1,1])
-% set(h(3),'FaceColor',[1,0,0])
-ylabel('Localization Error (m)');
-xlabel('Noise Level (cm)');
-legend('Initial Error','Esitimated Error', 'FontSize',8,'FontName','Times New Roman', 'Location', 'northwest');
-set(gca,'xtick',1:3);
-set(gca,'XTickLabel',{'1cm','0.1cm','0.01cm'},'FontSize',12,'FontName','Times New Roman'); 
-Y_1=Y;
-for i = 1:length(X)
-    text(X(i)-0.25,Y_1(i,1),num2str(Y_1(i,1)),'HorizontalAlignment','center','VerticalAlignment','bottom','FontSize',8,'FontName','Times New Roman');
-    text(X(i)+0.25,Y_1(i,2),num2str(Y_1(i,2)),'HorizontalAlignment','center','VerticalAlignment','bottom','FontSize',8,'FontName','Times New Roman');
+Y= [err_ini(1);err_new'];
+b=diag(Y);
+c=bar(b,0.5,'stack');
+color=[1,0,1;0.62745,0.12549,0.94118;1,0.64706,0;0.80392,0.78824,0.78824];
+for i=1:4
+set(c(i),'FaceColor',color(i,:));
 end
-set(gcf,'PaperType','a2');
-saveas(gcf,sprintf('noise_err.pdf'),'pdf'); 
+Y_1 = Y;
+for i = 1:length(Y)
+    text(i,Y_1(i),num2str(Y_1(i)),'HorizontalAlignment','center','VerticalAlignment','bottom','FontSize',8,'FontName','Times New Roman');
+end
+ylabel('Log_{10}{(Localization Error)} (m)');
+xlabel('Noise Level (cm)');
+set(gca,'xtick',1:4);
+set(gca,'yscale','log')
+set(gca,'XTickLabel',{'Initial Error','1cm','0.1cm','0.01cm'},'FontSize',12,'FontName','Times New Roman'); 

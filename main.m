@@ -1,5 +1,5 @@
 clear all
-cvx_solver gurobi_2
+cvx_solver gurobi
 dis = 5;
 % R = 6371.2;
 % M = 4;
@@ -36,6 +36,9 @@ while(norm(x_old - param.x)>1e-5)
         break
     end
 end
+param.x = x_best;
+param.n = n_best;
+param = solve_x(param);
 fprintf("Initial Error:%2.4f|Error:%2.4f|Obj:%2.4f\n",norm(param.x_e - param.x_0),norm(param.x_e - x_best),obj_best)
 % earth
 % save noisedata

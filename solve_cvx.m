@@ -8,10 +8,13 @@ function param = solve_cvx(param,R,g_bar)
 %     variable z2(M)
     variable x(d)
     variable g(M)
+    variable a_rec
     variable n(M) integer
-    minimize sum(z) %+ 0.001*sum(z2)
+    minimize sum(z)% + 0.02*sum(z2)
     for i = 1:M
-        - z(i) <= g(i) - param.a(i) - param.lambda*n(i) <= z(i)
+        - z(i) <= g(i) - param.a(i) + a_rec - param.lambda*n(i) <= z(i)
+        0<= param.a(i) - a_rec <= param.lambda
+%         - 1e-7 <= g(i) - g_ini(i) <= 1e-7
 %         - z2(i) <= g(i) - g_bar(i) <= z2(i)
     end
     for i = 1:M
@@ -25,6 +28,7 @@ function param = solve_cvx(param,R,g_bar)
     n = n';
     param.x = x;
     param.n = n;
+    param.a_rec = a_rec;
     param = solve_x(param);
     param.obj = objective(param);
     param.z = z;

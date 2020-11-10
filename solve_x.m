@@ -12,7 +12,7 @@ function param = solve_x(param)
         end
         param.x = x;
         obj = objective(param);
-        if abs(obj-obj_old)<1e-10
+        if abs(obj-obj_old)<1e-12
             break
         end
     end

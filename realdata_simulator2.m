@@ -19,8 +19,13 @@ end
 for i = 1:M
     a(i) = norm(emitter - XYZ(i,:)) - n(i)*lambda;
 end
+% a_rec = (lambda - max(a))*rand;
+a_rec = abs(randn);
+a = a + a_rec;
 param.x_e = emitter;
 param.a = a;
+param.a_rec = a_rec;
+param.a_rec_e = a_rec;
 param.s = XYZ;
 param.lambda = lambda;
 param.x_0 = x_0;
