@@ -9,5 +9,5 @@ function obj = objective(param)
     for i = 1:length(a)
         norm_all = [norm_all,norm(s(i,:) - x)];
     end
-    obj = sum((a - a_rec + n*lambda - norm_all).^2);
+    obj = sum((-a + a_rec + n*lambda - norm_all).^2);
 end

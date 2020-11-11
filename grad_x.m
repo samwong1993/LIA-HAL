@@ -8,6 +8,6 @@ function grad = grad_x(param)
     [M,d] = size(s);
     grad = zeros(1,d);
     for i = 1:length(a)
-        grad = grad + 2*(norm(s(i,:) - x) - a(i) + a_rec - n(i)*lambda)*(x - s(i,:))/norm(s(i,:) - x);
+        grad = grad + 2*(norm(s(i,:) - x) + a(i) - a_rec - n(i)*lambda)*(x - s(i,:))/norm(s(i,:) - x);
     end
 end

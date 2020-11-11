@@ -21,7 +21,7 @@ for i = 1:M
 end
 % a_rec = (lambda - max(a))*rand;
 a_rec = abs(randn);
-a = a + a_rec;
+a = a_rec - a;
 param.x_e = emitter;
 param.a = a;
 param.a_rec = a_rec;
