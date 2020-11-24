@@ -1,14 +1,11 @@
 clear all
-cvx_solver MOSEK
+cvx_solver gurobi
 tol = 24;
 dis = 10;
-succ_sum = zeros(1,tol);
-fail_sum = zeros(1,tol);
-bett_sum = zeros(1,tol);
-for iter = 1:10000
-    succ = zeros(1,tol);
-    fail = zeros(1,tol);
-    bett = zeros(1,tol);
+succ = zeros(1,tol);
+fail = zeros(1,tol);
+bett = zeros(1,tol);
+for iter = 1
     % R = 6371.2;
     % M = 4;
     % d = 3;
@@ -52,7 +49,7 @@ for iter = 1:10000
     param.x = x_best;
     param.n = n_best;
     param.a_rec = a_rec_best;
-    fprintf("Iter:%d|Initial Error:%2.4f|Error:%2.4f|Obj:%2.4f\n",iter,norm(param.x_e - param.x_0),norm(param.x_e - x_best),obj_best)
+    fprintf("Initial Error:%2.4f|Error:%2.4f|Obj:%2.4f\n",norm(param.x_e - param.x_0),norm(param.x_e - x_best),obj_best)
     index = ceil(norm(param.x_e - param.x_0));
     if norm(param.x_e - x_best) < 1e-2
         succ(index) = succ(index) + 1;
@@ -62,31 +59,18 @@ for iter = 1:10000
             fail(index) = fail(index) + 1;
         end 
     end
-
-    %Save the results
-    succ_sum = succ_sum + succ;
-    fail_sum = fail_sum + fail;
-    bett_sum = bett_sum + bett;
-    fid=fopen("repeat1.txt","a+");
-    fprintf(fid,"succ_sum:%2d",succ_sum(1));
-    for i = 2:length(succ_sum)
-        fprintf(fid,",%2d",succ_sum(i));
-    end
-    fprintf(fid,"\n");
-    fprintf(fid,"fail_sum:%2d",fail_sum(1));
-    for i = 2:length(fail_sum)
-        fprintf(fid,",%2d",fail_sum(i));
-    end
-    fprintf(fid,"\n");
-    fprintf(fid,"bett_sum:%2d",bett_sum(1));
-    for i = 2:length(bett_sum)
-        fprintf(fid,",%2d",bett_sum(i));
-    end
-    fprintf(fid,"\n");
-    fprintf(fid,"\n");
-    fclose(fid);
-
 end
+%Save the results
+succ_sum = succ_sum + succ;
+fail_sum = fail_sum + fail;
+bett_sum = bett_sum + bett;
+fid=fopen("repeat.txt","a+");
+fprintf(fid,"%2d",succ_sum(1));
+for i = 2:length(succ_sum)
+    fprintf(fid,",%2d",err(i));
+end
+fprintf(fid,"\n");
+fclose(fid);
 
 
 

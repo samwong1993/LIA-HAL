@@ -1,5 +1,5 @@
 clear all
-cvx_solver gurobi
+cvx_solver MOSEK
 dis = 5;
 % R = 6371.2;
 % M = 4;
@@ -9,6 +9,7 @@ R = 6.364923148106367e+06;
 M = 5;
 d = 3;
 param = realdata_simulator2(R,M,d,dis,1);
+obj_old = objective(param); 
 param.x = zeros(1,d);
 param.n = zeros(1,M);
 [M,d] = size(param.s);
@@ -26,6 +27,7 @@ while(norm(x_old - param.x)>1e-5)
         obj_best = param.obj;
         x_best = param.x;
         n_best = param.n;
+        a_rec_best = param.a_rec;
     end
     fprintf("Initial Error:%2.4f|Error:%2.4f|Obj:%2.4f|Dif_g:%2.4f\n",norm(param.x_e - param.x_0),norm(param.x_e - param.x),sum(param.z),norm(g_bar - param.g))
     fprintf("x:(%2.10f,%2.10f,%2.10f)\n",param.x(1),param.x(2),param.x(3))
@@ -38,10 +40,13 @@ while(norm(x_old - param.x)>1e-5)
 end
 param.x = x_best;
 param.n = n_best;
-param = solve_x(param);
+param.a_rec = a_rec_best;
 fprintf("Initial Error:%2.4f|Error:%2.4f|Obj:%2.4f\n",norm(param.x_e - param.x_0),norm(param.x_e - x_best),obj_best)
+%Save the results
+fid=fopen("main.txt","a+");
+fprintf(fid,"%2.4f,%2.4f,%2.0f,%2.4f,%2.4f\n",norm(param.x_e - param.x_0),norm(param.x_e - x_best),sum(abs(param.n_e - n_best)),obj_old,obj_best);
+fclose(fid);
 % earth
 % save noisedata
-
 
 

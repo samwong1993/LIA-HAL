@@ -13,6 +13,7 @@ function param = solve_cvx(param,R,g_bar)
     minimize sum(z)% + 0.02*sum(z2)
     for i = 1:M
         - z(i) <= g(i) + param.a(i) - a_rec - param.lambda*n(i) <= z(i)
+        0 <= a_rec - param.a(i) <= param.lambda
 %         - 1e-7 <= g(i) - g_ini(i) <= 1e-7
 %         - z2(i) <= g(i) - g_bar(i) <= z2(i)
     end
