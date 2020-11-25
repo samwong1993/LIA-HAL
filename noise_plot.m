@@ -3,28 +3,52 @@ obj_ini = [];
 obj_new = [];
 err_ini = [];
 err_new = [];
-load 1cm
-mean_obj = mean(obj);
-obj_ini = [obj_ini mean_obj(1)];
-obj_new = [obj_new mean_obj(2)];
-mean_err = mean(Error);
-err_ini = [err_ini mean_err(1)];
-err_new = [err_new mean_err(2)];
-load 01cm
-mean_obj = mean(obj);
-obj_ini = [obj_ini mean_obj(1)];
-obj_new = [obj_new mean_obj(2)];
-mean_err = mean(Error);
-err_ini = [err_ini mean_err(1)];
-err_new = [err_new mean_err(2)];
-load 001cm
-mean_obj = mean(obj);
-obj_ini = [obj_ini mean_obj(1)];
-obj_new = [obj_new mean_obj(2)];
-mean_err = mean(Error);
-err_ini = [err_ini mean_err(1)];
-err_new = [err_new mean_err(2)];
-figure(1)
+filename = '.\results0.005.txt';
+[ini,err,dis,obj_old,obj]=textread(filename,'%f%f%f%f%f','delimiter',',');
+Y = [mean(ini);mean(err);mean(dis);mean(obj_old);mean(obj)];
+obj_ini = [obj_ini,mean(obj_old)];
+obj_new = [obj_new,mean(obj)];
+err_ini = [err_ini,mean(ini)];
+err_new = [err_new,mean(err)];
+filename = '.\results0.004.txt';
+[ini,err,dis,obj_old,obj]=textread(filename,'%f%f%f%f%f','delimiter',',');
+Y = [mean(ini);mean(err);mean(dis);mean(obj_old);mean(obj)];
+obj_ini = [obj_ini,mean(obj_old)];
+obj_new = [obj_new,mean(obj)];
+err_ini = [err_ini,mean(ini)];
+err_new = [err_new,mean(err)];
+filename = '.\results0.003.txt';
+[ini,err,dis,obj_old,obj]=textread(filename,'%f%f%f%f%f','delimiter',',');
+Y = [mean(ini);mean(err);mean(dis);mean(obj_old);mean(obj)];
+obj_ini = [obj_ini,mean(obj_old)];
+obj_new = [obj_new,mean(obj)];
+err_ini = [err_ini,mean(ini)];
+err_new = [err_new,mean(err)];
+filename = '.\results0.002.txt';
+[ini,err,dis,obj_old,obj]=textread(filename,'%f%f%f%f%f','delimiter',',');
+Y = [mean(ini);mean(err);mean(dis);mean(obj_old);mean(obj)];
+obj_ini = [obj_ini,mean(obj_old)];
+obj_new = [obj_new,mean(obj)];
+err_ini = [err_ini,mean(ini)];
+err_new = [err_new,mean(err)];
+filename = '.\results0.001.txt';
+[ini,err,dis,obj_old,obj]=textread(filename,'%f%f%f%f%f','delimiter',',');
+Y = [mean(ini);mean(err);mean(dis);mean(obj_old);mean(obj)];
+obj_ini = [obj_ini,mean(obj_old)];
+obj_new = [obj_new,mean(obj)];
+err_ini = [err_ini,mean(ini)];
+err_new = [err_new,mean(err)];
+filename = '.\results0.0005.txt';
+[ini,err,dis,obj_old,obj]=textread(filename,'%f%f%f%f%f','delimiter',',');
+Y = [mean(ini);mean(err);mean(dis);mean(obj_old);mean(obj)];
+obj_ini = [obj_ini,mean(obj_old)];
+obj_new = [obj_new,mean(obj)];
+err_ini = [err_ini,mean(ini)];
+err_new = [err_new,mean(err)];
+
+
+
+
 Y= [obj_ini',obj_new'];
 X=1:length(obj_ini);
 h=bar(X,Y);
@@ -34,9 +58,9 @@ set(h(2),'FaceColor',[0,1,1])
 ylabel('Log_{10}{(Objective Function)}');
 xlabel('Noise Level (cm)');
 legend('Initial Function Value','Esitimated Function Value', 'FontSize',8,'FontName','Times New Roman', 'Location', 'northwest');
-set(gca,'xtick',1:3);
+set(gca,'xtick',1:6);
 set(gca,'yscale','log')
-set(gca,'XTickLabel',{'1cm','0.1cm','0.01cm'},'FontSize',12,'FontName','Times New Roman'); 
+set(gca,'XTickLabel',{'0.5cm','0.4cm','0.3cm','0.2cm','0.1cm','0.05cm'},'FontSize',12,'FontName','Times New Roman'); 
 Y_1=Y;
 for i = 1:length(X)
     text(X(i)-0.25,Y_1(i,1),num2str(Y_1(i,1)),'HorizontalAlignment','center','VerticalAlignment','bottom','FontSize',8,'FontName','Times New Roman');
@@ -57,6 +81,6 @@ for i = 1:length(Y)
 end
 ylabel('Log_{10}{(Localization Error)} (m)');
 xlabel('Noise Level (cm)');
-set(gca,'xtick',1:4);
+set(gca,'xtick',1:7);
 set(gca,'yscale','log')
-set(gca,'XTickLabel',{'Initial Error','1cm','0.1cm','0.01cm'},'FontSize',12,'FontName','Times New Roman'); 
+set(gca,'XTickLabel',{'Error at x_0','0.5cm','0.4cm','0.3cm','0.2cm','0.1cm','0.05cm'},'FontSize',12,'FontName','Times New Roman'); 

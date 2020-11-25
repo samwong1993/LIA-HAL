@@ -1,12 +1,14 @@
 clear all
 cvx_solver MOSEK
 R = 6.364923148106367e+06;
-noise = 1e-3;
-for iter = 1:100
+noise = 3e-3;
+for iter = 1:200
     load noisedata
     a_e = param.a;
     [M,d] = size(param.s);
     param.a = param.a + noise*randn(1,M);
+    param.x = param.x_0;
+    param = solve_n(param);
     obj_old = objective(param); 
     param.x = zeros(1,d);
     param.n = zeros(1,M);
@@ -42,7 +44,7 @@ for iter = 1:100
     fprintf("Iter:%d|Initial Error:%2.4f|Error:%2.4f|Obj:%2.4f\n",iter,norm(param.x_e - param.x_0),norm(param.x_e - x_best),obj_best)
     %Save the results
     fid=fopen("results"+string(noise)+".txt","a+");
-    fprintf(fid,"%2.4f,%2.4f,%2.0f,%2.4f,%2.4f\n",norm(param.x_e - param.x_0),norm(param.x_e - x_best),sum(abs(param.n_e - n_best)),obj_old,obj_best);
+    fprintf(fid,"%2.8f,%2.8f,%2.0f,%2.8f,%2.8f\n",norm(param.x_e - param.x_0),norm(param.x_e - x_best),sum(abs(param.n_e - n_best)),obj_old,obj_best);
     fclose(fid);
 
 %     obj(iter,1) = obj_old;

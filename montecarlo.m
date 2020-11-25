@@ -1,7 +1,7 @@
 clear all
 cvx_solver MOSEK
-tol = 24;
-dis = 10;
+tol = 3;
+dis = 2;
 succ_sum = zeros(1,tol);
 fail_sum = zeros(1,tol);
 bett_sum = zeros(1,tol);
@@ -67,7 +67,7 @@ for iter = 1:10000
     succ_sum = succ_sum + succ;
     fail_sum = fail_sum + fail;
     bett_sum = bett_sum + bett;
-    fid=fopen("repeat1.txt","a+");
+    fid=fopen("repeat4.txt","a+");
     fprintf(fid,"succ_sum:%2d",succ_sum(1));
     for i = 2:length(succ_sum)
         fprintf(fid,",%2d",succ_sum(i));
