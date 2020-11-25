@@ -18,7 +18,7 @@ function param = solve_cvx(param,R,g_bar)
 %         - z2(i) <= g(i) - g_bar(i) <= z2(i)
     end
     for i = 1:M
-        param.s(i,:)*param.s(i,:)' + R^2  - 2*param.s(i,:)*x == g(i)*g_bar(i)
+        norm(param.s(i,:))^2 + R^2  - 2*param.s(i,:)*x == g(i)*g_bar(i)
         range_n(i,1) <= n(i) <= range_n(i,2)
         range_g(i,1) <= g(i) <= range_g(i,2)
     end

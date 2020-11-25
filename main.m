@@ -47,6 +47,6 @@ fid=fopen("main.txt","a+");
 fprintf(fid,"%2.4f,%2.4f,%2.0f,%2.4f,%2.4f\n",norm(param.x_e - param.x_0),norm(param.x_e - x_best),sum(abs(param.n_e - n_best)),obj_old,obj_best);
 fclose(fid);
 % earth
-save noisedata
+% save noisedata
 
 
