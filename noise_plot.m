@@ -3,20 +3,21 @@ obj_ini = [];
 obj_new = [];
 err_ini = [];
 err_new = [];
+err_n = [];
 filename = '.\results0.005.txt';
 [ini,err,dis,obj_old,obj]=textread(filename,'%f%f%f%f%f','delimiter',',');
-Y = [mean(ini);mean(err);mean(dis);mean(obj_old);mean(obj)];
 obj_ini = [obj_ini,mean(obj_old)];
 obj_new = [obj_new,mean(obj)];
 err_ini = [err_ini,mean(ini)];
 err_new = [err_new,mean(err)];
+err_n = [err_n,mean(dis)];
 filename = '.\results0.004.txt';
 [ini,err,dis,obj_old,obj]=textread(filename,'%f%f%f%f%f','delimiter',',');
-Y = [mean(ini);mean(err);mean(dis);mean(obj_old);mean(obj)];
 obj_ini = [obj_ini,mean(obj_old)];
 obj_new = [obj_new,mean(obj)];
 err_ini = [err_ini,mean(ini)];
 err_new = [err_new,mean(err)];
+err_n = [err_n,mean(dis)];
 filename = '.\results0.003.txt';
 [ini,err,dis,obj_old,obj]=textread(filename,'%f%f%f%f%f','delimiter',',');
 Y = [mean(ini);mean(err);mean(dis);mean(obj_old);mean(obj)];
@@ -24,31 +25,38 @@ obj_ini = [obj_ini,mean(obj_old)];
 obj_new = [obj_new,mean(obj)];
 err_ini = [err_ini,mean(ini)];
 err_new = [err_new,mean(err)];
+err_n = [err_n,mean(dis)];
 filename = '.\results0.002.txt';
 [ini,err,dis,obj_old,obj]=textread(filename,'%f%f%f%f%f','delimiter',',');
-Y = [mean(ini);mean(err);mean(dis);mean(obj_old);mean(obj)];
 obj_ini = [obj_ini,mean(obj_old)];
 obj_new = [obj_new,mean(obj)];
 err_ini = [err_ini,mean(ini)];
 err_new = [err_new,mean(err)];
+err_n = [err_n,mean(dis)];
 filename = '.\results0.001.txt';
 [ini,err,dis,obj_old,obj]=textread(filename,'%f%f%f%f%f','delimiter',',');
-Y = [mean(ini);mean(err);mean(dis);mean(obj_old);mean(obj)];
 obj_ini = [obj_ini,mean(obj_old)];
 obj_new = [obj_new,mean(obj)];
 err_ini = [err_ini,mean(ini)];
 err_new = [err_new,mean(err)];
+err_n = [err_n,mean(dis)];
 filename = '.\results0.0005.txt';
 [ini,err,dis,obj_old,obj]=textread(filename,'%f%f%f%f%f','delimiter',',');
-Y = [mean(ini);mean(err);mean(dis);mean(obj_old);mean(obj)];
 obj_ini = [obj_ini,mean(obj_old)];
 obj_new = [obj_new,mean(obj)];
 err_ini = [err_ini,mean(ini)];
 err_new = [err_new,mean(err)];
+err_n = [err_n,mean(dis)];
+filename = '.\results0.txt';
+[ini,err,dis,obj_old,obj]=textread(filename,'%f%f%f%f%f','delimiter',',');
+obj_ini = [obj_ini,mean(obj_old)];
+obj_new = [obj_new,mean(obj)];
+err_ini = [err_ini,mean(ini)];
+err_new = [err_new,mean(err)];
+err_n = [err_n,mean(dis)];
 
 
-
-
+figure(1)
 Y= [obj_ini',obj_new'];
 X=1:length(obj_ini);
 h=bar(X,Y);
@@ -58,9 +66,9 @@ set(h(2),'FaceColor',[0,1,1])
 ylabel('Log_{10}{(Objective Function)}');
 xlabel('Noise Level (cm)');
 legend('Initial Function Value','Esitimated Function Value', 'FontSize',8,'FontName','Times New Roman', 'Location', 'northwest');
-set(gca,'xtick',1:6);
+set(gca,'xtick',1:7);
 set(gca,'yscale','log')
-set(gca,'XTickLabel',{'0.5cm','0.4cm','0.3cm','0.2cm','0.1cm','0.05cm'},'FontSize',12,'FontName','Times New Roman'); 
+set(gca,'XTickLabel',{'0.5','0.4','0.3','0.2','0.1','0.05','0'},'FontSize',12,'FontName','Times New Roman'); 
 Y_1=Y;
 for i = 1:length(X)
     text(X(i)-0.25,Y_1(i,1),num2str(Y_1(i,1)),'HorizontalAlignment','center','VerticalAlignment','bottom','FontSize',8,'FontName','Times New Roman');
@@ -71,16 +79,35 @@ figure(2)
 Y= [err_ini(1);err_new'];
 b=diag(Y);
 c=bar(b,0.5,'stack');
-color=[1,0,1;0.62745,0.12549,0.94118;1,0.64706,0;0.80392,0.78824,0.78824];
-for i=1:4
-set(c(i),'FaceColor',color(i,:));
-end
+% color=[1,0,1;0.62745,0.12549,0.94118;1,0.64706,0;0.80392,0.78824,0.78824];
+% for i=1:4
+% set(c(i),'FaceColor',color(i,:));
+% end
 Y_1 = Y;
 for i = 1:length(Y)
     text(i,Y_1(i),num2str(Y_1(i)),'HorizontalAlignment','center','VerticalAlignment','bottom','FontSize',8,'FontName','Times New Roman');
 end
 ylabel('Log_{10}{(Localization Error)} (m)');
 xlabel('Noise Level (cm)');
-set(gca,'xtick',1:7);
+set(gca,'xtick',1:8);
 set(gca,'yscale','log')
-set(gca,'XTickLabel',{'Error at x_0','0.5cm','0.4cm','0.3cm','0.2cm','0.1cm','0.05cm'},'FontSize',12,'FontName','Times New Roman'); 
+set(gca,'XTickLabel',{'Initial Error','0.5','0.4','0.3','0.2','0.1','0.05','0'},'FontSize',12,'FontName','Times New Roman'); 
+
+
+
+figure(3)
+Y= [err_n];
+b=diag(Y);
+c=bar(b,0.5,'stack');
+% color=[1,0,1;0.62745,0.12549,0.94118;1,0.64706,0;0.80392,0.78824,0.78824];
+% for i=1:4
+% set(c(i),'FaceColor',color(i,:));
+% end
+Y_1 = Y;
+for i = 1:length(Y)
+    text(i,Y_1(i),num2str(Y_1(i)),'HorizontalAlignment','center','VerticalAlignment','bottom','FontSize',8,'FontName','Times New Roman');
+end
+ylabel('Error of n');
+xlabel('Noise Level (cm)');
+set(gca,'xtick',1:7);
+set(gca,'XTickLabel',{'0.5','0.4','0.3','0.2','0.1','0.05','0'},'FontSize',12,'FontName','Times New Roman'); 

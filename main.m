@@ -1,6 +1,6 @@
 clear all
 cvx_solver MOSEK
-dis = 2;
+dis = 10;
 % R = 6371.2;
 % M = 4;
 % d = 3;

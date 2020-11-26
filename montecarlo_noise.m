@@ -1,7 +1,7 @@
 clear all
 cvx_solver MOSEK
 R = 6.364923148106367e+06;
-noise = 5e-3;
+noise = 0;
 for iter = 1:200
     load noisedata
     a_e = param.a;
